@@ -21,27 +21,27 @@ Para rodar a arquitetura completa localmente para desenvolvimento:
 
 ---
 
-## Clone o repositório
+### 1. Clone o repositório
 git clone https://github.com/hawkzs0x01/loja-veloz-devops.git
 
 cd loja-veloz-devops
 
 ---
 
-## Suba os serviços
+### 2. Suba os serviços
 
 docker-compose up --build -d
 
 ---
 
-## Teste o Gateway (que fará proxy para os serviços internos)
+### 3. Teste o Gateway (que fará proxy para os serviços internos)
 curl http://localhost:8000/health
 
 Para derrubar o ambiente: \`docker-compose down\`
 
 ---
 
-## Ambiente de Produção (Kubernetes)
+# Ambiente de Produção (Kubernetes)
 
 Para implantar no cluster Kubernetes, certifique-se de ter o minikube e kubectl instalados.
 
@@ -76,7 +76,7 @@ kubectl apply -f k8s/hpa.yaml
 
 ---
 
-#### 4. Aplique os Deployments e Services
+### 4. Aplique os Deployments e Services
 
 kubectl apply -f k8s/pedidos.yaml
 
@@ -88,7 +88,7 @@ kubectl apply -f k8s/gateway.yaml
 
 ---
 
-#### 5. Verifique a saúde dos Pods
+### 5. Verifique a saúde dos Pods
 
 kubectl get pods
 
