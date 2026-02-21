@@ -15,55 +15,80 @@ Repositório do projeto prático de modernização da infraestrutura da **Loja V
 
 ---
 
-# Instruções de Execução Rápida
+# Instruções de Execução Rápida: Ambiente Local (Docker Compose)
 
-## 1. Ambiente Local (Docker Compose)
 Para rodar a arquitetura completa localmente para desenvolvimento:
 
+---
 
-# Clone o repositório
+## Clone o repositório
 git clone https://github.com/hawkzs0x01/loja-veloz-devops.git
 
 cd loja-veloz-devops
 
-#### Suba os serviços
+---
+
+## Suba os serviços
 
 docker-compose up --build -d
 
-#### Teste o Gateway (que fará proxy para os serviços internos)
+---
+
+## Teste o Gateway (que fará proxy para os serviços internos)
 curl http://localhost:8000/health
 
 Para derrubar o ambiente: \`docker-compose down\`
 
+---
 
-# Ambiente de Produção (Kubernetes)
-Para implantar no cluster Kubernetes, certifique-se de ter o \`minikube\` e \`kubectl\` instalados.
+## Ambiente de Produção (Kubernetes)
+
+Para implantar no cluster Kubernetes, certifique-se de ter o minikube e kubectl instalados.
+
+---
 
 
 
-#### 1. Carregue as imagens locais para o cluster Minikube
+### 1. Carregue as imagens locais para o cluster Minikube
+
 minikube image load loja-veloz-devops_api-gateway:latest
+
 minikube image load loja-veloz-devops_servico-pedidos:latest
+
 minikube image load loja-veloz-devops_servico-pagamentos:latest
+
 minikube image load loja-veloz-devops_servico-estoque:latest
 
+---
 
-#### 2. Aplique as configurações e credenciais
+
+### 2. Aplique as configurações e credenciais
+
 kubectl apply -f k8s/configmap.yaml
+
 kubectl apply -f k8s/secret.yaml
 
+---
 
-#### 3. Aplique as regras de autoscaling (HPA)
+### 3. Aplique as regras de autoscaling (HPA)
+
 kubectl apply -f k8s/hpa.yaml
 
+---
 
 #### 4. Aplique os Deployments e Services
+
 kubectl apply -f k8s/pedidos.yaml
+
 kubectl apply -f k8s/pagamentos.yaml
+
 kubectl apply -f k8s/estoque.yaml
+
 kubectl apply -f k8s/gateway.yaml
 
+---
 
 #### 5. Verifique a saúde dos Pods
+
 kubectl get pods
-\`\`\`
+
