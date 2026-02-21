@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loja-veloz-config
+data:
+  ENVIRONMENT: "producao-kubernetes"
+  LOG_LEVEL: "INFO"

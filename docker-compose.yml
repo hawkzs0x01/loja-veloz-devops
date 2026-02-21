@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: postgres-veloz
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: senha_super_secreta
+      POSTGRES_DB: loja_veloz
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - loja-rede
+    restart: unless-stopped
+
+  servico-pedidos:
+    build: ./servico-pedidos
+    container_name: pedidos-veloz-svc
+    environment:
+      - DB_HOST=postgres-db
+      - DB_USER=admin
+      - DB_PASSWORD=senha_super_secreta
+    ports:
+      - "8001:8000"
+    depends_on:
+      - postgres-db
+    networks:
+      - loja-rede
+
+  servico-pagamentos:
+    build: ./servico-pagamentos
+    container_name: pagamentos-veloz-svc
+    ports:
+      - "8002:8000"
+    networks:
+      - loja-rede
+
+  servico-estoque:
+    build: ./servico-estoque
+    container_name: estoque-veloz-svc
+    ports:
+      - "8003:8000"
+    networks:
+      - loja-rede
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: gateway-veloz-svc
+    ports:
+      - "8000:8000"
+    depends_on:
+      - servico-pedidos
+      - servico-pagamentos
+      - servico-estoque
+    networks:
+      - loja-rede
+
+volumes:
+  pgdata:
+
+networks:
+  loja-rede:
+    driver: bridge
